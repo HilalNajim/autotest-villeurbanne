@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autotest – Contrôle Technique Villeurbanne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --red: #C8272A;
+  --red-dark: #A01E1E;
+  --red-light: #FDF0F0;
+  --red-mid: #F5DCDC;
+  --blue: #1B4F8A;
+  --blue-dark: #133A66;
+  --blue-light: #EEF4FB;
+  --blue-mid: #C5D9EF;
+  --dark: #1A1A1A;
+  --dark-2: #2E2E2E;
+  --mid: #5A5A5A;
+  --muted: #8C8C8C;
+  --border: #E8E4E0;
+  --bg: #FFFFFF;
+  --bg-2: #F5F8FC;
+  --bg-3: #EEF4FB;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'DM Sans', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--dark);
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 6vw;
+  height: 72px;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--dark);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+.nav-logo span { color: var(--red); }
+
+.nav-links {
+  display: flex; gap: 36px; list-style: none; align-items: center;
+}
+.nav-links a {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--mid);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--dark); }
+
+.nav-cta {
+  background: var(--blue) !important;
+  color: #fff !important;
+  padding: 10px 22px;
+  border-radius: 4px;
+  transition: background 0.2s !important;
+}
+.nav-cta:hover { background: var(--blue-dark) !important; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  padding-top: 72px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 60px 80px 8vw;
+  background: var(--bg);
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 24px;
+  animation: fadeUp 0.5s ease both;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 20px; height: 1.5px;
+  background: var(--red);
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(44px, 5.5vw, 72px);
+  font-weight: 800;
+  line-height: 1.05;
+  color: var(--dark);
+  margin-bottom: 24px;
+  animation: fadeUp 0.5s 0.08s ease both;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--red);
+}
+
+.hero-sub {
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--mid);
+  line-height: 1.75;
+  max-width: 400px;
+  margin-bottom: 44px;
+  animation: fadeUp 0.5s 0.16s ease both;
+}
+
+.hero-actions {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  animation: fadeUp 0.5s 0.24s ease both;
+}
+
+.btn-primary {
+  background: var(--red);
+  color: #fff;
+  padding: 14px 28px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  border-radius: 4px;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-primary:hover { background: var(--red-dark); transform: translateY(-1px); }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--dark);
+  padding: 14px 24px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: border-color 0.2s, transform 0.15s;
+}
+.btn-secondary:hover { border-color: var(--dark); transform: translateY(-1px); }
+
+.hero-stats {
+  display: flex; gap: 44px;
+  margin-top: 56px;
+  padding-top: 44px;
+  border-top: 1px solid var(--border);
+  animation: fadeUp 0.5s 0.32s ease both;
+}
+
+.stat-num {
+  font-family: var(--font-serif);
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1;
+}
+.stat-num span { color: var(--red); }
+.stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+}
+
+/* ── HERO RIGHT ── */
+.hero-right {
+  background: var(--bg-2);
+  position: relative;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+}
+
+.hero-right::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: var(--blue-mid);
+  opacity: 0.35;
+}
+.hero-right::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; left: -60px;
+  width: 240px; height: 240px;
+  border-radius: 50%;
+  background: var(--red-mid);
+  opacity: 0.4;
+}
+
+.hero-badge-block {
+  position: relative; z-index: 2;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 48px 44px;
+  text-align: center;
+  box-shadow: 0 4px 40px rgba(0,0,0,0.06);
+  animation: fadeUp 0.6s 0.3s ease both;
+}
+
+.badge-seal {
+  width: 100px; height: 100px;
+  border: 2px solid var(--blue);
+  border-radius: 50%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  margin: 0 auto 28px;
+  background: var(--blue-light);
+}
+
+.badge-seal svg { color: var(--blue); }
+.badge-seal-label {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-top: 4px;
+}
+
+.badge-title {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 6px;
+}
+
+.badge-subtitle {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+
+.badge-rating {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--bg-2);
+  border-radius: 6px;
+  padding: 10px 20px;
+  margin-bottom: 16px;
+}
+.badge-stars { color: #F5A623; font-size: 15px; letter-spacing: 2px; }
+.badge-score {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dark);
+}
+.badge-count {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.badge-address {
+  font-size: 13px;
+  color: var(--mid);
+  line-height: 1.6;
+}
+
+.hero-right .map-link {
+  position: absolute;
+  bottom: 32px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--blue);
+  text-decoration: none;
+  display: flex; align-items: center; gap: 6px;
+  transition: color 0.2s;
+}
+.hero-right .map-link:hover { color: var(--blue-dark); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── TICKER ── */
+.ticker {
+  background: var(--blue);
+  padding: 16px 0;
+  overflow: hidden;
+}
+.ticker-track {
+  display: flex; gap: 56px;
+  white-space: nowrap;
+  animation: ticker 32s linear infinite;
+  width: max-content;
+}
+.ticker-item {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.75);
+  display: flex; align-items: center; gap: 20px;
+}
+.ticker-item::after { content: '·'; color: rgba(255,255,255,0.3); font-size: 16px; }
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ── SECTIONS ── */
+section { padding: 100px 8vw; }
+
+.section-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-label::before {
+  content: '';
+  width: 20px; height: 1.5px;
+  background: var(--red);
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(34px, 4vw, 52px);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--dark);
+  margin-bottom: 16px;
+}
+
+.section-desc {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--mid);
+  line-height: 1.75;
+  max-width: 460px;
+}
+
+/* ── SERVICES ── */
+#services { background: var(--bg); }
+
+.services-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: end;
+  margin-bottom: 60px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.service-card {
+  background: var(--bg);
+  padding: 36px 28px;
+  position: relative;
+  transition: background 0.2s;
+}
+.service-card:hover { background: var(--bg-2); }
+
+.service-num {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+
+.service-icon {
+  font-size: 26px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.service-name {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.service-desc {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--mid);
+  line-height: 1.65;
+}
+
+.service-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 28px; right: 28px;
+  height: 2px;
+  background: var(--red);
+  transform: scaleX(0);
+  transition: transform 0.3s;
+  transform-origin: left;
+}
+.service-card:hover::after { transform: scaleX(1); }
+
+/* ── AVIS ── */
+#avis { background: var(--bg-2); }
+
+.avis-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 64px;
+  align-items: start;
+  margin-top: 52px;
+}
+
+.rating-block {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 40px 32px;
+  text-align: center;
+  position: sticky;
+  top: 90px;
+}
+
+.rating-big {
+  font-family: var(--font-serif);
+  font-size: 80px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--dark);
+  letter-spacing: -0.03em;
+}
+.rating-big span { color: var(--red); }
+
+.stars-row { font-size: 20px; color: #F5A623; letter-spacing: 3px; margin: 8px 0; display: block; }
+.rating-count { font-size: 13px; color: var(--muted); font-weight: 400; }
+
+.rating-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 20px 0;
+}
+
+.rating-note {
+  font-size: 13px;
+  color: var(--mid);
+  line-height: 1.6;
+}
+.rating-note strong { color: var(--dark); font-weight: 600; }
+
+.avis-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.avis-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 26px;
+  transition: box-shadow 0.2s;
+}
+.avis-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+
+.avis-stars { font-size: 13px; color: #F5A623; letter-spacing: 2px; margin-bottom: 12px; }
+
+.avis-text {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--mid);
+  line-height: 1.7;
+  margin-bottom: 18px;
+  font-style: italic;
+}
+
+.avis-author {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark);
+  letter-spacing: 0.02em;
+}
+.avis-date {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ── HORAIRES ── */
+#horaires { background: var(--bg); }
+
+.horaires-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  margin-top: 52px;
+}
+
+.horaires-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.horaires-table tr {
+  border-bottom: 1px solid var(--border);
+}
+
+.horaires-table td {
+  padding: 16px 0;
+  font-size: 15px;
+}
+
+.horaires-table td:first-child {
+  color: var(--mid);
+  font-weight: 500;
+  font-size: 14px;
+}
+.horaires-table td:last-child {
+  text-align: right;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--dark);
+}
+.horaires-table tr.ferme td:last-child { color: var(--muted); font-weight: 400; }
+.horaires-table tr.promo td:first-child { color: var(--red); font-weight: 600; }
+.horaires-table tr.promo td:last-child { color: var(--red); }
+
+.info-boxes { display: flex; flex-direction: column; gap: 14px; }
+
+.info-box {
+  background: var(--bg-2);
+  border-left: 3px solid var(--blue);
+  border-radius: 0 8px 8px 0;
+  padding: 22px 24px;
+}
+
+.info-box h3 {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 6px;
+  letter-spacing: 0.01em;
+}
+
+.info-box p {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--mid);
+  line-height: 1.65;
+}
+.info-box strong { color: var(--dark); font-weight: 500; }
+
+/* ── CONTACT ── */
+#contact { background: var(--bg-3); }
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  margin-top: 52px;
+}
+
+.contact-items { display: flex; flex-direction: column; gap: 14px; }
+
+.contact-item {
+  display: flex; gap: 18px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 22px 24px;
+  align-items: center;
+  transition: box-shadow 0.2s;
+}
+.contact-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+
+.contact-item-icon {
+  width: 44px; height: 44px;
+  background: var(--blue-light);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 20px;
+}
+
+.contact-item-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+.contact-item-value {
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--dark);
+  text-decoration: none;
+  line-height: 1.4;
+}
+a.contact-item-value:hover { color: var(--blue); }
+
+.map-block {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+
+.map-placeholder {
+  flex: 1;
+  min-height: 220px;
+  background: var(--bg-3);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.map-placeholder::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.025) 0, rgba(0,0,0,0.025) 1px, transparent 1px, transparent 36px),
+    repeating-linear-gradient(90deg, rgba(0,0,0,0.025) 0, rgba(0,0,0,0.025) 1px, transparent 1px, transparent 36px);
+}
+
+.map-pin { font-size: 36px; position: relative; z-index: 2; }
+.map-address {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--dark);
+  text-align: center;
+  position: relative; z-index: 2;
+}
+.map-city {
+  font-size: 13px;
+  color: var(--muted);
+  position: relative; z-index: 2;
+}
+
+.map-footer {
+  padding: 18px 24px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.map-footer span {
+  font-size: 13px;
+  color: var(--mid);
+}
+
+.map-cta {
+  background: var(--blue);
+  color: #fff;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.map-cta:hover { background: var(--blue-dark); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--blue-dark);
+  padding: 40px 8vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-logo {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 20px;
+  color: #fff;
+}
+.footer-logo span { color: var(--red); }
+
+.footer-text { font-size: 13px; color: rgba(255,255,255,0.45); font-weight: 300; }
+
+/* ── FLOATING CTA ── */
+.rdv-float {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  z-index: 200;
+  background: var(--blue);
+  color: #fff;
+  padding: 13px 22px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 50px;
+  box-shadow: 0 6px 28px rgba(27,79,138,0.35);
+  display: flex; align-items: center; gap: 8px;
+  transition: transform 0.2s, background 0.2s;
+  animation: fadeUp 0.8s 0.6s ease both;
+}
+.rdv-float:hover { background: var(--blue-dark); transform: translateY(-2px); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Auto<span>test</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#avis">Avis clients</a></li>
+    <li><a href="#horaires">Horaires</a></li>
+    <li><a href="#contact" class="nav-cta">Prendre rendez-vous</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Centre agréé · Villeurbanne</div>
+    <h1 class="hero-title">
+      Votre contrôle technique<br><em>simple, rapide</em><br>et fiable
+    </h1>
+    <p class="hero-sub">
+      Fethi et son équipe vous accueillent à Villeurbanne pour l'inspection de tous types de véhicules — avec des horaires adaptés et un accueil chaleureux.
+    </p>
+    <div class="hero-actions">
+      <a href="tel:0437694405" class="btn-primary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.77a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg>
+        04 37 69 44 05
+      </a>
+      <a href="#services" class="btn-secondary">
+        Découvrir nos services
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">4<span>.9</span></div>
+        <div class="stat-label">Note Google</div>
+      </div>
+      <div>
+        <div class="stat-num">869<span>+</span></div>
+        <div class="stat-label">Avis vérifiés</div>
+      </div>
+      <div>
+        <div class="stat-num">59<span>€</span></div>
+        <div class="stat-label">Dès le mardi</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-badge-block">
+      <div class="badge-seal">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div class="badge-seal-label">Agréé</div>
+      </div>
+      <div class="badge-title">Autotest</div>
+      <div class="badge-subtitle">Centre de contrôle technique · Villeurbanne</div>
+      <div class="badge-rating">
+        <span class="badge-stars">★★★★★</span>
+        <span class="badge-score">4.9/5</span>
+        <span class="badge-count">· 869 avis</span>
+      </div>
+      <div class="badge-address">
+        15 Rue de la Ligne de l'Est<br>
+        69100 Villeurbanne<br>
+        <span style="color:var(--blue); font-weight:500;">04 37 69 44 05</span>
+      </div>
+    </div>
+    <a href="https://maps.google.com/?q=15+Rue+de+la+Ligne+de+l%27Est+69100+Villeurbanne" target="_blank" class="map-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Voir sur Google Maps
+    </a>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">Contrôle technique obligatoire</span>
+    <span class="ticker-item">Contre-visite</span>
+    <span class="ticker-item">Contrôle pollution</span>
+    <span class="ticker-item">Véhicules électriques &amp; hybrides</span>
+    <span class="ticker-item">Camping-cars &amp; 4x4</span>
+    <span class="ticker-item">Utilitaires</span>
+    <span class="ticker-item">Pré-contrôle avant vente</span>
+    <span class="ticker-item">GPL &amp; Gaz</span>
+    <span class="ticker-item">Contrôle technique obligatoire</span>
+    <span class="ticker-item">Contre-visite</span>
+    <span class="ticker-item">Contrôle pollution</span>
+    <span class="ticker-item">Véhicules électriques &amp; hybrides</span>
+    <span class="ticker-item">Camping-cars &amp; 4x4</span>
+    <span class="ticker-item">Utilitaires</span>
+    <span class="ticker-item">Pré-contrôle avant vente</span>
+    <span class="ticker-item">GPL &amp; Gaz</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header">
+    <div>
+      <div class="section-label">Ce que nous proposons</div>
+      <h2 class="section-title">Tous types<br>de véhicules</h2>
+    </div>
+    <p class="section-desc">Du contrôle réglementaire à la contre-visite, nous prenons en charge l'ensemble des véhicules avec rigueur et rapidité.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <span class="service-icon">🚗</span>
+      <div class="service-name">Contrôle technique obligatoire</div>
+      <div class="service-desc">Inspection complète selon la réglementation DREAL. Rapport détaillé remis à l'issue du contrôle.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <span class="service-icon">🔄</span>
+      <div class="service-name">Contre-visite</div>
+      <div class="service-desc">Vérification après réparations. Tarifs avantageux pour la contre-visite simple et complète (banc, gaz).</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <span class="service-icon">⚡</span>
+      <div class="service-name">Hybrides &amp; électriques</div>
+      <div class="service-desc">Équipements adaptés aux nouvelles motorisations — véhicules électriques et hybrides rechargeables.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">04</div>
+      <span class="service-icon">🚐</span>
+      <div class="service-name">Utilitaires &amp; camping-cars</div>
+      <div class="service-desc">Contrôle de tous les véhicules utilitaires légers (VUL) et camping-cars, sans attente.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">05</div>
+      <span class="service-icon">🛻</span>
+      <div class="service-name">4x4 &amp; GPL / Gaz</div>
+      <div class="service-desc">Centre habilité pour les véhicules tout-terrain et les motorisations GPL ou gaz naturel.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">06</div>
+      <span class="service-icon">🔍</span>
+      <div class="service-name">Pré-contrôle avant vente</div>
+      <div class="service-desc">Anticipez les points de défaillance avant une transaction. Rassurez acheteur et vendeur.</div>
+    </div>
+  </div>
+</section>
+
+<!-- AVIS -->
+<section id="avis">
+  <div class="section-label">Ils en parlent</div>
+  <h2 class="section-title">Ce que nos clients disent</h2>
+  <div class="avis-layout">
+    <div class="rating-block">
+      <div class="rating-big">4<span>.9</span></div>
+      <span class="stars-row">★★★★★</span>
+      <div class="rating-count">869 avis Google vérifiés</div>
+      <hr class="rating-divider">
+      <p class="rating-note">Centre <strong>noté parmi les meilleurs</strong> de Villeurbanne sur les plateformes de contrôle technique.</p>
+    </div>
+    <div class="avis-grid">
+      <div class="avis-card">
+        <div class="avis-stars">★★★★★</div>
+        <p class="avis-text">Rendez-vous très facile à prendre sur internet. Pris à l'heure. Contrôle efficace et rapide. Prix conforme au devis. Tout a été parfait.</p>
+        <div class="avis-author">Frédéric M.</div>
+        <div class="avis-date">Il y a 1 mois</div>
+      </div>
+      <div class="avis-card">
+        <div class="avis-stars">★★★★★</div>
+        <p class="avis-text">Excellent accueil ! Très efficace et rapide. Chocolat chaud offert en attendant — c'est du jamais vu. Je sais maintenant où emmener ma moto !</p>
+        <div class="avis-author">Mme Leroy</div>
+        <div class="avis-date">Il y a 2 mois</div>
+      </div>
+      <div class="avis-card">
+        <div class="avis-stars">★★★★★</div>
+        <p class="avis-text">Personnel super agréable, très professionnel et rapide. L'accueil est top avec un café offert. On se sent vraiment bien pris en charge. Merci !</p>
+        <div class="avis-author">Client vérifié</div>
+        <div class="avis-date">Il y a 3 semaines</div>
+      </div>
+      <div class="avis-card">
+        <div class="avis-stars">★★★★★</div>
+        <p class="avis-text">Organisation impeccable, prise de RDV simple. 59€ c'est le meilleur prix que j'ai trouvé. Accueil vraiment pro et agréable. Je recommande les yeux fermés.</p>
+        <div class="avis-author">Client vérifié</div>
+        <div class="avis-date">Il y a 1 semaine</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HORAIRES -->
+<section id="horaires">
+  <div class="section-label">Quand nous trouver</div>
+  <h2 class="section-title">Horaires d'ouverture</h2>
+  <div class="horaires-layout">
+    <div>
+      <table class="horaires-table">
+        <tr><td>Lundi</td><td>8h00 – 18h00</td></tr>
+        <tr class="promo"><td>Mardi — Promo 59€</td><td>7h00 – 19h00</td></tr>
+        <tr><td>Mercredi</td><td>8h00 – 18h00</td></tr>
+        <tr><td>Jeudi</td><td>8h00 – 18h00</td></tr>
+        <tr><td>Vendredi</td><td>8h00 – 12h00 · 14h00 – 18h00</td></tr>
+        <tr><td>Samedi</td><td>7h00 – 16h00</td></tr>
+        <tr class="ferme"><td>Dimanche</td><td>Fermé</td></tr>
+      </table>
+    </div>
+    <div class="info-boxes">
+      <div class="info-box">
+        <h3>Prise de rendez-vous</h3>
+        <p>En ligne ou par téléphone au <strong>04 37 69 44 05</strong>. Présentez-vous <strong>5 minutes avant</strong> votre créneau avec votre certificat d'immatriculation.</p>
+      </div>
+      <div class="info-box">
+        <h3>Accès &amp; paiement</h3>
+        <p>Centre entièrement accessible PMR — parking, entrée et sanitaires adaptés. <strong>Carte bancaire acceptée.</strong></p>
+      </div>
+      <div class="info-box">
+        <h3>Espace d'attente</h3>
+        <p>Profitez d'une <strong>boisson chaude offerte</strong> pendant votre contrôle — café, chocolat ou thé, à volonté.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Nous rejoindre</div>
+  <h2 class="section-title">Contact &amp; accès</h2>
+  <div class="contact-layout">
+    <div class="contact-items">
+      <div class="contact-item">
+        <div class="contact-item-icon">📞</div>
+        <div>
+          <div class="contact-item-label">Téléphone</div>
+          <a href="tel:0437694405" class="contact-item-value">04 37 69 44 05</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">📍</div>
+        <div>
+          <div class="contact-item-label">Adresse</div>
+          <div class="contact-item-value">15 Rue de la Ligne de l'Est<br><span style="font-size:15px; font-weight:400; color:var(--mid);">69100 Villeurbanne</span></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">🚌</div>
+        <div>
+          <div class="contact-item-label">Accès</div>
+          <div style="font-size:14px; font-weight:300; color:var(--mid); line-height:1.65;">À proximité du stade Jules Guesdes.<br>Facile d'accès depuis Vaulx-en-Velin et Lyon.</div>
+        </div>
+      </div>
+    </div>
+    <div class="map-block">
+      <div class="map-placeholder">
+        <span class="map-pin">📍</span>
+        <div class="map-address">15 Rue de la Ligne de l'Est</div>
+        <div class="map-city">69100 Villeurbanne</div>
+      </div>
+      <div class="map-footer">
+        <span>Proche stade Jules Guesdes</span>
+        <a href="https://maps.google.com/?q=15+Rue+de+la+Ligne+de+l%27Est+69100+Villeurbanne" target="_blank" class="map-cta">Itinéraire →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Auto<span>test</span></div>
+  <div class="footer-text">© 2025 Autotest Villeurbanne · Centre de contrôle technique agréé</div>
+  <div class="footer-text">Fethi &amp; son équipe · 6j/7</div>
+</footer>
+
+<!-- FLOATING CTA -->
+<a href="tel:0437694405" class="rdv-float">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.77a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg>
+  Appeler maintenant
+</a>
+
+</body>
+</html>
