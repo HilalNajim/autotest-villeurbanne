@@ -737,13 +737,10 @@ footer {
   justify-content: space-between;
 }
 
-.footer-logo {
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: 20px;
-  color: #fff;
+.footer-logo img {
+  height: 38px;
+  width: auto;
 }
-.footer-logo span { color: var(--red); }
 
 .footer-text { font-size: 13px; color: rgba(255,255,255,0.45); font-weight: 300; }
 
@@ -1032,8 +1029,8 @@ footer {
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Auto<span>test</span></div>
-  <div class="footer-text">© 2025 Autotest Villeurbanne · Centre de contrôle technique agréé</div>
+  <div class="footer-logo"><img src="assets/logo.png" alt="Autotest logo"></div>
+  <div class="footer-text">© <span id="footer-year"></span> Autotest Villeurbanne · Centre de contrôle technique agréé</div>
   <div class="footer-text">Fethi &amp; son équipe · 6j/7</div>
 </footer>
 
@@ -1043,5 +1040,6 @@ footer {
   Appeler maintenant
 </a>
 
+<script>document.getElementById('footer-year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
